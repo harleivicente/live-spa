@@ -1,0 +1,10 @@
+{
+    "name": "livespa",
+    "version": "0.0.1",
+    "author": "Harlei Vicente <harleivicente@gmail.com>",
+    "dependencies": {
+    	"express": "*",
+        "socket.io": "*",
+    	"node-folder-memcache": "git+https://github.com/harleivicente/node-folder-memcache.git"
+    }
+}

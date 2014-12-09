@@ -1,0 +1,8 @@
+{
+    "name": "livespa-tests",
+    "author": "Harlei Vicente <harleivicente@gmail.com>",
+    "dependencies": {
+        "should": "*",
+        "socket.io-client": "*"
+    }
+}
