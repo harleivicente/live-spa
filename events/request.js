@@ -85,12 +85,13 @@ module.exports = function(socket){
           }
 
         }
+
+        // If event was handled and reply generated, emit object to client
+        if(typeof reply.status === 'boolean')
+          socket.emit('client.response', reply);
+        
       });
     }
-
-    // If event was handled and reply generated, emit object to client
-    if(typeof reply.status === 'boolean')
-      socket.emit('client.response', reply);
 
   });
 
