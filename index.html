@@ -1,7 +1,19 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io('http://localhost');
-  socket.on('client-control', function (package) {
-    console.log(package);
+
+  socket.on('client.control', function (package) {});
+
+  socket.on('client.response', function(package){
+  	console.log(package);
   });
+
+  socket.emit('server.request', {
+  	type: 'user.signup',
+  	id: 1,
+  	params: {
+  		title: 'params are here'
+  	}
+  });
+
 </script>

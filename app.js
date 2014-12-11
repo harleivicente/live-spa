@@ -1,16 +1,7 @@
-var gFs = require('fs');
-var gPath = require('path');
 var gApp = require('express')();
 var gServer = require('http').Server(gApp);
 var gIo = require('socket.io')(gServer);
-var gFolder_memcache = require("node-folder-memcache");
 gServer.listen(80);
-
-
-new gFolder_memcache(gPath.join(__dirname, 'socket_events')).eachFolder(function(p, f, n){
-  console.log(p);
-  n();
-});
 
 // Serving index
 gApp.get('/', function (req, res) {
@@ -18,28 +9,17 @@ gApp.get('/', function (req, res) {
 });
 
 // Websockets
-var client_state = {};
+var gClients = {};
+
 
 gIo.on('connection', function (socket) {
 
+  gClients[socket.id] = {};
+  socket.emit('client.control', {type: 'client-connect', status: true});
 
-  client_state[socket.id] = {};
-  socket.emit('client-control', {type: 'client-connect', status: true});
+  // Registers handlers for 'server.request' socket events
+  require("./events/request")(socket);
 
-  socket.on('server.request', function(package){
-
-    // signup
-    if(package.type === 'user.signup'){
-      // make user
-      socket.emit('client.reply', {
-        type: package.type,
-        id: package.id,
-        status: true
-      });
-    }
-    
-
-  });
 
 });
 
