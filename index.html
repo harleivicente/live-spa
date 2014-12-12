@@ -2,20 +2,25 @@
 <script>
   var socket = io('http://localhost');
 
-  socket.on('client.control', function (package) {});
-
   socket.on('client.response', function(package){
   	console.log(package);
   });
 
   socket.emit('server.request', {
-  	type: 'user.signup',
+    type: 'user.login',
+    id: 2,
+    params: {
+      username: 'hv',
+      password: 'h'
+    }
+  });
+
+  socket.emit('server.request', {
+  	type: 'user.edit',
   	id: 1,
   	params: {
-  		displayName: 'Natalia',
-      username: 'natalida222',
-      password: '123321',
-      email: 'nat@emadil232.com'
+  		userId: '548a59d87d919a846bdbaf61',
+      email: 'h@2.com'
   	}
   });
 

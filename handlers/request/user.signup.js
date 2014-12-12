@@ -1,5 +1,5 @@
 /*
-API
+SERVER REQUEST API
 
 user.signup
 	Create new account
@@ -11,7 +11,6 @@ user.signup
 
 @error username - username already in use
 @error email - email already in use
-@error generic
 
 */
 module.exports = function(params, callback){

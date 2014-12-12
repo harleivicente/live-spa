@@ -16,8 +16,16 @@ var schema = new gDb.Schema({
 });
 
 schema.methods.setPasswordHash = function(password){
-	this.passwordHash = password + '_temp_hash';
+	this.passwordHash = password;
 }
 
+schema.methods.isRoot = function(){
+	return false;
+	// throw new Error("Method no ready :D");
+}
+
+schema.methods.getId = function(){
+	return this._id.toString();
+}
 gDb.model('User', schema);
 
