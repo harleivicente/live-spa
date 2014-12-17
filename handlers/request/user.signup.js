@@ -49,7 +49,8 @@ module.exports = function(params, callback){
 			var options = {
 				displayName: params.displayName,
 				email: params.email,
-				username: params.username
+				username: params.username,
+				root: false
 			};
 
 			var user = new User(options);

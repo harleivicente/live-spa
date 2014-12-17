@@ -16,12 +16,21 @@
   });
 
   socket.emit('server.request', {
-  	type: 'user.edit',
-  	id: 1,
-  	params: {
-  		userId: '548a59d87d919a846bdbaf61',
-      email: 'h@2.com'
-  	}
+    type: 'user.signup',
+    id: 253,
+    params: {
+      displayName: 'aba332ac',
+      email: 'abc@a33fa2df.com',
+      username: 'ab332c',
+      password: 'ab3c'
+    }
   });
+
+  setTimeout(function(){
+    socket.emit('server.request', {
+      type: 'user.list',
+      id: 23
+    });
+  }, 1000);
 
 </script>

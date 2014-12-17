@@ -10,6 +10,7 @@ User model
 */
 var schema = new gDb.Schema({
 	displayName: {type: String, required: true},
+	root: {type: Boolean, init: false},
 	email: {type: String, required: true},
 	username: {type: String, required: true, index: { unique: true}},
 	passwordHash: {type: String, required: true}
@@ -20,8 +21,7 @@ schema.methods.setPasswordHash = function(password){
 }
 
 schema.methods.isRoot = function(){
-	return false;
-	// throw new Error("Method no ready :D");
+	return this.root;
 }
 
 schema.methods.getId = function(){

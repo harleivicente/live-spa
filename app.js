@@ -37,14 +37,16 @@
 	  res.sendFile(__dirname + '/index.html');
 	});
 
-
 	// Websockets
-	var gClients = {};
-
 	io.on('connection', function (socket) {
 
+		// Destroy session if connection ends
+	  	socket.on('disconnect', function(){
+	  		gSessions.destroySession(socket);
+	  	});
+
 		// ClientSession, avaiable in api handlers
-		session = gSessions.createSession(socket.id);
+		session = gSessions.createSession(socket);
 
 	  	// Registers handlers for 'server.request' socket events
 	  	require("./lib/request_events_setup")(socket);
