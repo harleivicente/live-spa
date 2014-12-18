@@ -5,8 +5,10 @@
     "dependencies": {
     	"express": "*",
         "socket.io": "*",
+        "socket.io-client": "*",
         "async": "*",
         "mongoose": "*",
+        "should": "*",
     	"node-folder-memcache": "git+https://github.com/harleivicente/node-folder-memcache.git"
     }
 }

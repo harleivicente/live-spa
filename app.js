@@ -18,6 +18,33 @@
 	  model_file.require();
 	});
 
+
+/*
+	Create root user if it does not exist
+*/
+	var User = gDb.model('User');
+	User.find({username: 'root'}, function(error, user){
+		if(error){
+			throw new Error("Unable to create root user during app startup.");
+		}
+
+		if(user.length === 0){
+			var root = new User({
+				displayName: 'root',
+				username: 'root',
+				passwordHash: 'root',
+				email: 'root@email.com'
+			});
+			root.save(function(error){
+				if(error){
+					throw new Error("Unable to create root user during app startup.");
+				}
+
+			});
+		}
+	});
+
+
 /*
 	Creating Server session
 */
@@ -39,9 +66,11 @@
 
 	// Websockets
 	io.on('connection', function (socket) {
+		console.log('Connect');
 
 		// Destroy session if connection ends
 	  	socket.on('disconnect', function(){
+	  		console.log("Disconnect");
 	  		gSessions.destroySession(socket);
 	  	});
 
@@ -50,7 +79,6 @@
 
 	  	// Registers handlers for 'server.request' socket events
 	  	require("./lib/request_events_setup")(socket);
-
 	});
 
 	server.listen(80);

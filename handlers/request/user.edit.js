@@ -13,6 +13,17 @@ user.edit
 
 @permission - Root user or logged as user being edited
 
+@broadcast
+	- name: 'user'
+	- target: 	logged as root and at 'admin:users' ||
+				logged as user being edited
+	- data: {
+		user: USER,
+		author: USER,
+		action: 'edit',
+		attributesAffected: <array of attr. names>
+	}
+
 */
 module.exports = function(params, callback){
 	var User = gDb.model('User');

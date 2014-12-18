@@ -18,6 +18,8 @@ SERVER REQUEST API
 	- more stuff
 >
 
+@broadcast 
+
 
 */
 module.exports = function(params, callback){
