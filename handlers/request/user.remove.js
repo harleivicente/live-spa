@@ -46,7 +46,7 @@ module.exports = function(params, callback){
 
 					// Broadcast user removal
 					
-					callback(Boolean(error));
+					callback(!Boolean(error));
 				});
 
 			} else {

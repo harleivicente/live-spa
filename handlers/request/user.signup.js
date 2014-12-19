@@ -12,6 +12,8 @@ user.signup
 @error username - username already in use
 @error email - email already in use
 
+@reply user User
+
 */
 module.exports = function(params, callback){
 	var User = gDb.model('User');
@@ -57,7 +59,11 @@ module.exports = function(params, callback){
 			user.setPasswordHash(params.password);
 
 			user.save(function(error){
-				callback(!Boolean(error));
+				if(error){
+					callback(false);
+				} else {
+					callback(true, {user: user});
+				}
 			});
 		}
 

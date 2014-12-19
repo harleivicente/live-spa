@@ -33,6 +33,7 @@
 				displayName: 'root',
 				username: 'root',
 				passwordHash: 'root',
+				root: true,
 				email: 'root@email.com'
 			});
 			root.save(function(error){
@@ -66,11 +67,11 @@
 
 	// Websockets
 	io.on('connection', function (socket) {
-		console.log('Connect');
+		// console.log('Connect');
 
 		// Destroy session if connection ends
 	  	socket.on('disconnect', function(){
-	  		console.log("Disconnect");
+	  		// console.log("Disconnect");
 	  		gSessions.destroySession(socket);
 	  	});
 

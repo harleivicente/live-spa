@@ -27,48 +27,55 @@ user.edit
 */
 module.exports = function(params, callback){
 	var User = gDb.model('User');
-	
-	User.findById(params.userId, function(error, user){
-		if(error){
-			callback(false);
-		} else {
 
-			/*
-				Permission check
-			*/
-			var loggedUser = session.getLoggedUser();
-			var cleared = false;
-			if(!loggedUser){
-				cleared = false;
-			} else if(loggedUser.isRoot()) {
-				cleared = true;
-			} else if(loggedUser.getId() === params.userId){
-				cleared = true;
-			}
-
-			if(cleared){
-
-				// Set properties
-				if(params.displayName)
-					user.displayName = params.displayName;
-				if(params.email)
-					user.email = params.email;
-				if(params.password)
-					user.setPasswordHash(params.password);
-
-				// Save in database
-				user.save(function(error){
-					if(error){
-						callback(false);
-					} else {
-						callback(true, {user: user})
-					}
-				});
-
-			} else {
+	if(typeof params.userId === "undefined"){
+		callback(false);
+	} else {
+		
+		User.findById(params.userId, function(error, user){
+			if(error || !user){
 				callback(false);
+			} else {
+
+				/*
+					Permission check
+				*/
+				var loggedUser = session.getLoggedUser();
+				var cleared = false;
+				if(!loggedUser){
+					cleared = false;
+				} else if(loggedUser.isRoot()) {
+					cleared = true;
+				} else if(loggedUser.getId() === params.userId){
+					cleared = true;
+				}
+
+				if(cleared){
+
+					// Set properties
+					if(typeof params.displayName === "string")
+						user.displayName = params.displayName;
+					if(typeof params.email === "string")
+						user.email = params.email;
+					if(typeof params.password === "string")
+						user.setPasswordHash(params.password);
+
+					// Save in database
+					user.save(function(error){
+						if(error){
+							callback(false);
+						} else {
+							callback(true, {user: user})
+						}
+					});
+
+				} else {
+					callback(false);
+				}
 			}
-		}
-	});
+		});
+
+	}
+
 
 };
