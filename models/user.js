@@ -27,5 +27,6 @@ schema.methods.isRoot = function(){
 schema.methods.getId = function(){
 	return this._id.toString();
 }
+
 gDb.model('User', schema);
 
