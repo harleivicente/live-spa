@@ -1,4 +1,4 @@
-describe("collection.edit",function(){
+describe("collection.remove",function(){
 	var regular_a = null;
 	var regular_b = null;
 
@@ -147,7 +147,6 @@ describe("collection.edit",function(){
 		
 		// Attempt to remove
 		function(errors, result){
-			console.log(result.collection.data.collection);
 			testApiRequest(client_a, 'collection.remove', {
 					collectionId: result.collection.data.collection._id
 				},
