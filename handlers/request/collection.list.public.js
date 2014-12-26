@@ -6,8 +6,6 @@ collection.list.public
 
 @reply collections [Collection]
 
-@permission - Root user
-
 */
 module.exports = function(params, callback){
 	var Collection = gDb.model('Collection');

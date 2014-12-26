@@ -6,6 +6,7 @@ Collection model
 @property string description
 @property string privacy - ['public', 'private']
 @property string cover_file_url
+@property string owner_id
 
 */
 var schema = new gDb.Schema({

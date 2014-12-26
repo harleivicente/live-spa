@@ -1,4 +1,4 @@
-describe("collection.list.public",function(){
+describe("collection.list.mine",function(){
 	var regular_a = null;
 	var regular_b = null;
 
@@ -43,7 +43,7 @@ describe("collection.list.public",function(){
 		ready();
 	});
 
-	it("User will see public collections and won't private collections.", function(done){
+	it("User will only see own collections.", function(done){
 
 		async.series({
 			
@@ -105,7 +105,7 @@ describe("collection.list.public",function(){
 
 			// Attempt to list
 			package: function(ready){
-				testApiRequest(client_a, 'collection.list.public', {}, ready);
+				testApiRequest(client_a, 'collection.list.mine', {}, ready);
 			}			
 
 		}, 
@@ -113,7 +113,7 @@ describe("collection.list.public",function(){
 		// Results
 		function(errors, result){
 			result.package.status.should.equal(true);
-			result.package.type.should.equal('collection.list.public');
+			result.package.type.should.equal('collection.list.mine');
 			result.package.should.not.have.property('error');
 			result.package.should.have.property('data');
 			result.package.data.should.have.property('collections');
@@ -131,12 +131,37 @@ describe("collection.list.public",function(){
 					found_d = true;
 			});
 
-			found_a.should.equal(true);
-			found_c.should.equal(true);
+			found_a.should.equal(false);
 			found_b.should.equal(false);
-			found_d.should.equal(false);
+			found_c.should.equal(true);
+			found_d.should.equal(true);
 			done();
 		});
 
 	});
+
+
+	it("User may not use api if not logged.", function(done){
+
+		async.series({
+			
+			// Attempt to list
+			package: function(ready){
+				testApiRequest(client_a, 'collection.list.mine', {}, ready);
+			}			
+
+		}, 
+
+		// Results
+		function(errors, result){
+			result.package.status.should.equal(false);
+			result.package.type.should.equal('collection.list.mine');
+			result.package.should.property('error');
+			result.package.error.should.equal('generic');
+			done();
+		});
+
+	});
+
+
 });
