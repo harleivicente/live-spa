@@ -19,6 +19,18 @@ schema.methods.getCollectionId = function(){
 	return this.collection_id.toString();
 }
 
+/*
+Obtains the collection of the image
+
+@param function callback - Args: error, collection
+*/
+schema.methods.getCollection = function(callback){
+	var Collection = gDb.model('Collection');
+	Collection.findById(this.getCollectionId(), function(error, collection){
+		callback(error, collection);
+	});
+}
+
 // schema.methods.fn = function(){}
 
 gDb.model('Image', schema);
