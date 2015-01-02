@@ -139,4 +139,60 @@ describe("user.remove",function(){
 
 	});
 
+
+	it("When user is removed, all collections of his are, as well.", function(done){
+
+		async.series(
+			{
+				// Log is as regular A
+				regular_a_login: function(ready){
+					makeApiRequest(client_a, 'user.login', {
+						username: regular_a.username,
+						password: 'api.test'
+					}, ready);
+				},
+
+				// Create
+				collection: function(ready){
+					makeApiRequest(client_a, 'collection.create', {
+						title: 'Some ice work',
+						description: 'Very cold place 2',
+						privacy: 'public',
+						cover_file_url: 'some_url.jpeg'
+					}, ready);
+				}
+			}, 
+		
+			// Attempt to remove user
+			function(errors, result){
+
+				testApiRequest(client_a, 'user.remove', {
+					userId: regular_a._id
+				}, function(error, package){
+
+					// check if removal was successful
+					package.status.should.equal(true);
+					package.type.should.equal('user.remove');
+					package.should.not.have.property('error');
+
+					// Check if collection was removed
+					testApiRequest(client_a, 'collection.collection', {
+						collectionId: result.collection.data.collection._id
+					}, 
+					function(error, package){
+						package.status.should.equal(false, "After user removal, his collections were not removed.");
+						package.type.should.equal('collection.collection');
+						package.should.have.property('error');
+						package.error.should.equal('generic');
+						done();
+					});
+
+				});
+
+			}
+
+		);
+
+	});
+
 });

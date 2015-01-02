@@ -31,13 +31,49 @@ schema.methods.getId = function(){
 /*
 	Pre remove middleware
 
-	1) removes all associated image scores
+	1) remove associated image scores
 
 */
-schema.pre('remove', function(ready){
+schema.pre('remove', function(pre_ready){
 	var ImageScore = gDb.model('ImageScore');
-	ImageScore.remove({userId: this._id}, function(error){
-		ready();
+
+	ImageScore.find({userId: this._id}, function(error, image_scores){
+
+		async.each(image_scores, 
+			function(image_score, ready){
+				image_score.remove(ready);
+			}, 
+			function(error){
+				if(!error)
+					pre_ready();
+			}
+		);
+
+	});
+});
+
+
+/*
+	Pre remove middleware
+
+	1) remove associated collections
+
+*/
+schema.pre('remove', function(pre_ready){
+	var Collection = gDb.model('Collection');
+
+	Collection.find({owner_id: this._id}, function(error, collections){
+
+		async.each(collections, 
+			function(collection, ready){
+				collection.remove(ready);
+			}, 
+			function(error){
+				if(!error)
+					pre_ready();
+			}
+		);
+
 	});
 });
 
