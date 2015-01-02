@@ -25,6 +25,48 @@ schema.methods.isPrivate = function(){
 	return this.privacy === 'private';
 }
 
+/*
+	Listss all images of collection
+
+	@param options - {
+		limit: <>,
+		offset: <>,
+		orderBy: <>, -  - [‘recent’, ‘score’, ‘title’, null]
+		reverseOrder: <>
+	}
+
+	@param function callback - Args: error, images
+*/
+schema.methods.listImages = function(options, callback){
+	var Image = gDb.model('Image');
+
+	var limit = options.limit ? options.limit : 20;
+	var offset = options.offset ? options.offset : 0;
+
+	var sort_options = {};
+	var sort_direction = options.reverseOrder ? 1 : -1;
+
+	if(options.orderBy === 'recent'){
+		sort_options['_id'] = sort_direction;
+	} else if(options.orderBy === 'score') {
+		sort_options['avg_score'] = sort_direction;
+	} else if(options.orderBy === 'title'){
+		sort_options['title'] = sort_direction;
+	}
+
+	Image
+	.find({collection_id: this._id})
+	.limit(limit)
+	.skip(offset)
+	.sort(sort_options)
+	.exec(
+		function(error, images){
+			callback(error, images);
+		}
+	);
+
+}
+
 var privacy_validador = function(value){
 	return ((value === "public") || (value === "private"));
 }
