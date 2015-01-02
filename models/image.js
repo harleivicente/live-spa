@@ -81,7 +81,20 @@ schema.methods.getCollection = function(callback){
 	});
 }
 
-// schema.methods.fn = function(){}
+
+/*
+	Pre remove middleware
+
+	1) removes all associated image scores
+
+*/
+schema.pre('remove', function(ready){
+	var ImageScore = gDb.model('ImageScore');
+	ImageScore.remove({imageId: this._id}, function(error){
+		ready();
+	});
+});
+
 
 gDb.model('Image', schema);
 
