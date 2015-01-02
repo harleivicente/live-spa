@@ -15,5 +15,16 @@ var schema = new gDb.Schema({
 
 // schema.methods.fn = function(){}
 
+/*
+	Post save handler
+
+	1) Update Image average score recalculation
+
+*/
+schema.post('save', function(image_score){
+		
+});
+
+
 gDb.model('ImageScore', schema);
 
