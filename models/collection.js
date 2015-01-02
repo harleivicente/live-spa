@@ -71,7 +71,30 @@ var privacy_validador = function(value){
 	return ((value === "public") || (value === "private"));
 }
 
-// schema.methods.fn = function(){}
+/*
+	Pre remove middleware
+
+	1) removes all associated images
+
+*/
+schema.pre('remove', function(pre_ready){
+	var Image = gDb.model('Image');
+
+	Image.find({collection_id: this._id}, function(error, images){
+
+		async.each(images, 
+			function(image, ready){
+				image.remove(ready);
+			}, 
+			function(error){
+				if(!error)
+					pre_ready();
+			}
+		);
+
+	});
+	
+});
 
 gDb.model('Collection', schema);
 

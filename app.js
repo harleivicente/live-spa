@@ -82,5 +82,5 @@
 	  	require("./lib/request_events_setup")(socket);
 	});
 
-	server.listen(80);
+	server.listen(25);
 

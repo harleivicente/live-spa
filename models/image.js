@@ -88,13 +88,24 @@ schema.methods.getCollection = function(callback){
 	1) removes all associated image scores
 
 */
-schema.pre('remove', function(ready){
+schema.pre('remove', function(pre_ready){
 	var ImageScore = gDb.model('ImageScore');
-	ImageScore.remove({imageId: this._id}, function(error){
-		ready();
-	});
-});
 
+	ImageScore.find({imageId: this._id}, function(error, image_scores){
+
+		async.each(image_scores, 
+			function(image_score, ready){
+				image_score.remove(ready);
+			}, 
+			function(error){
+				if(!error)
+					pre_ready();
+			}
+		);
+
+	});
+
+});
 
 gDb.model('Image', schema);
 

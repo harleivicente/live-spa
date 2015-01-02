@@ -173,4 +173,70 @@ describe("collection.remove",function(){
 
 	});
 
+
+	it("When collection is removed, unable to access image that belonged to it.", function(done){
+
+		async.waterfall([
+
+			// Log is as regular A
+			function(ready){
+				makeApiRequest(client_a, 'user.login', {
+					username: regular_a.username,
+					password: 'api.test'
+				}, ready);
+			},
+
+			// Create collection A
+			function(login_pkg, ready){
+				makeApiRequest(client_a, 'collection.create', {
+					title: 'adriane',
+					description: 'Very cold place 2',
+					privacy: 'private',
+					cover_file_url: 'some_url.jpeg'
+				}, ready);
+			},
+
+			// Create image A
+			function(collection_pkg, ready){
+				makeApiRequest(client_a, 'image.create', {
+					title: 'adriane',
+					collection_id: collection_pkg.data.collection._id,
+					image_file_url: 'some_url.jpeg'
+				}, ready);			
+			},
+
+			// Attempting collection removal
+			function(image_pkg, ready){
+				testApiRequest(client_a, 'collection.remove', {
+					collectionId: image_pkg.data.image.collection_id
+				}, function(error, package){
+					ready(error, package, image_pkg.data.image._id);
+				});			
+			}
+		], 
+		
+		// Check results
+		function(error, collection_removal_pkg, image_id){
+
+			// removal was successful
+			collection_removal_pkg.status.should.equal(true, 'Unable to remove collection.');
+			collection_removal_pkg.type.should.equal('collection.remove');
+			collection_removal_pkg.should.not.have.property('error');
+
+			// image was removed
+			testApiRequest(
+				client_a, 'image.image',
+				{ imageId: image_id }, 
+				function(error, package){
+					package.status.should.equal(false, 'Image of deleted colletion might not have been deleted.');
+					package.type.should.equal('image.image');
+					package.should.have.property('error');
+					package.error.should.equal('generic');
+					done();
+			});
+
+		});	
+
+	});
+
 });
