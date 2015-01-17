@@ -25,7 +25,7 @@ user.edit
 	}
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var User = gDb.model('User');
 
 	if(typeof params.userId === "undefined"){

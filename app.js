@@ -89,13 +89,13 @@
 	  	});
 
 		// ClientSession, avaiable in api handlers
-		session = gSessions.createSession(socket);
+		var session = gSessions.createSession(socket);
 
 	  	// Registers handlers for 'server.request' socket events
-	  	require("./lib/request_events_setup")(socket);
+	  	require("./lib/request_events_setup")(socket, session);
 
 	  	// Registers handlers for 'server.control' socket events
-	  	require("./lib/control_events_setup")(socket);
+	  	require("./lib/control_events_setup")(socket, session);
 
 	});
 

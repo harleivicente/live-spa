@@ -12,7 +12,7 @@ collection.create
 @reply collection Collection
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var Collection = gDb.model('Collection');
 	var async = require("async");
 

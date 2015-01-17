@@ -13,7 +13,7 @@ collection.collection
 @permission - Root user or logged as owner
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var Collection = gDb.model('Collection');
 
 	if(typeof params.collectionId === "undefined"){

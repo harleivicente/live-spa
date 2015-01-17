@@ -1,7 +1,5 @@
-module.exports = function(params){
+module.exports = function(params, session){
 	var new_location = params.code;
-
-	console.log(session.socket.id);
 
 	if(typeof new_location === 'string'){
 		var current_location = session.location;

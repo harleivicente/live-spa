@@ -12,7 +12,7 @@ collection.list.public
 @reply collections [Collection]
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var Collection = gDb.model('Collection');
 
 		var limit = params.limit ? params.limit : null;

@@ -14,7 +14,7 @@ collection.list
 @permission - Root user
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var Collection = gDb.model('Collection');
 
 	/*

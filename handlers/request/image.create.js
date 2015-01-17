@@ -13,7 +13,7 @@ image.create
 @reply image Image
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var Image = gDb.model('Image');
 	var Collection = gDb.model('Collection');
 	var loggedUser = session.getLoggedUser();

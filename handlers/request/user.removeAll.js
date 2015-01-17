@@ -7,7 +7,7 @@ user.removeAll
 @permission - Logged as root user
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var User = gDb.model('User');
 
 	/*

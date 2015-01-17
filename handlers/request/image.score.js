@@ -12,7 +12,7 @@ image.score
 @permission All if image is public. Root user or owner of collection the image belongs to if private
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var Image = gDb.model('Image');
 
 	if(typeof params.imageId !== "string" || typeof params.score !== 'number'){
@@ -50,7 +50,7 @@ module.exports = function(params, callback){
 							callback(false);
 						} else {
 
-							image.score(params.score, function(error, image){
+							image.score(params.score, loggedUser._id, function(error, image){
 								if(error){
 									callback(false);
 								} else {

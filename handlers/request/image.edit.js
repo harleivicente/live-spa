@@ -13,7 +13,7 @@ image.edit
 @permission Root user or owner of collection the image belongs to
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var Image = gDb.model('Image');
 	var async = require("async");
 

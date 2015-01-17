@@ -14,7 +14,7 @@ collection.list.mine
 @permission - Logged into app
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var Collection = gDb.model('Collection');
 
 	var logged_user = session.getLoggedUser();

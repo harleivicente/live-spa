@@ -15,7 +15,7 @@ user.signup
 @reply user User
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var User = gDb.model('User');
 	var async = require("async");
 

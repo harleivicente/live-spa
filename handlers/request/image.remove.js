@@ -9,7 +9,7 @@ image.remove
 @permission - Logged as owner of collection that imge belongs to or root user.
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var Image = gDb.model('Image');
 
 	if(!params.imageId){

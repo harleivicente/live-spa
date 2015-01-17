@@ -11,7 +11,7 @@ collection.remove
 
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var Collection = gDb.model('Collection');
 
 	if(!params.collectionId){

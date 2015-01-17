@@ -21,15 +21,16 @@ schema.methods.getCollectionId = function(){
 
 
 /*
-	Logged user scores a collection
+	Scores a collection
 
 	@param number score
+	@param number user_id
 	@param function callback - Args: error, image
 	
 	@internal - Will recalculate average score of image.
 	
 */
-schema.methods.score = function(score, callback){
+schema.methods.score = function(score, user_id, callback){
 	if(typeof score !== "number"){
 		callback(true, null);
 	}
@@ -37,9 +38,8 @@ schema.methods.score = function(score, callback){
 	var instance = this;
 
 	var ImageScore = gDb.model('ImageScore');
-	loggedUser = session.getLoggedUser();
 
-	ImageScore.findOne({imageId: instance._id, userId: loggedUser._id}, function(error, image_score){
+	ImageScore.findOne({imageId: instance._id, userId: user_id}, function(error, image_score){
 
 		if(error){
 			callback(error, null);
@@ -54,7 +54,7 @@ schema.methods.score = function(score, callback){
 			} else {
 				var new_score = new ImageScore({
 					imageId: instance._id,
-					userId: loggedUser._id,
+					userId: user_id,
 					score: score
 				});
 

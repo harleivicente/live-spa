@@ -15,7 +15,7 @@ image.list.collection
 @permission - All, if public. Owner of collection or Root , if private.
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var Collection = gDb.model('Collection');
 
 	if(typeof params.collectionId === "undefined"){

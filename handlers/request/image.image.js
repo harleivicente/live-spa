@@ -13,7 +13,7 @@ image.image
 @permission - Root user or logged as owner o collection
 
 */
-module.exports = function(params, callback){
+module.exports = function(params, callback, session){
 	var Image = gDb.model('Image');
 
 	if(typeof params.imageId === "undefined"){
