@@ -54,6 +54,19 @@
 
 
 /*
+	Organizing sockets in rooms
+*/
+	var RoomHandler = require('./lib/RoomHandler');
+	gRooms = new RoomHandler;
+	// Testing rooms
+
+	setInterval(function(){
+		// gSessions.summary();
+		gRooms.summary();
+	},2000);
+
+
+/*
 	Boot application
 */
 	var app = require('express')();
@@ -80,7 +93,11 @@
 
 	  	// Registers handlers for 'server.request' socket events
 	  	require("./lib/request_events_setup")(socket);
+
+	  	// Registers handlers for 'server.control' socket events
+	  	require("./lib/control_events_setup")(socket);
+
 	});
 
-	server.listen(25);
+	server.listen(80);
 

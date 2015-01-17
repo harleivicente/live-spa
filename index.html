@@ -1,4 +1,12 @@
 <script src="/socket.io/socket.io.js"></script>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+
+
+
+<input type = 'text'>
+<button> Location </button>
+
+
 <script>
   var socket = io('http://localhost');
 
@@ -6,31 +14,21 @@
   	console.log(package);
   });
 
-  socket.emit('server.request', {
-    type: 'user.login',
-    id: 2,
-    params: {
-      username: 'hv',
-      password: 'h'
-    }
-  });
 
-  socket.emit('server.request', {
-    type: 'user.signup',
-    id: 253,
-    params: {
-      displayName: 'aba332ac',
-      email: 'abc@a33fa2df.com',
-      username: 'ab332c',
-      password: 'ab3c'
-    }
-  });
+  $("button").click(function(){
 
-  setTimeout(function(){
-    socket.emit('server.request', {
-      type: 'user.list',
-      id: 23
+
+    var location = $("input").val();
+    console.log('location');
+
+    socket.emit('server.control', {
+      type: 'location',
+      params: {
+        code: location
+      }
     });
-  }, 1000);
+    
+  });
+
 
 </script>
