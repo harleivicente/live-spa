@@ -99,29 +99,40 @@ schema.pre('remove', function(pre_ready){
 });
 
 
-
-/*
-	Pre save
-
-	1) Sets custom is_new attribute
-*/
-schema.pre('save', function(ready){
-	this.is_new = this.isNew;
-	ready();
-});
-
-
 /*
 	Post save
 */
 schema.post('save', function(){
 	
-	// Created new collection
-	if(this.is_new){
-		// console.log(this._author_id);
-	} else {
-		// console.log('Just an edit.');
-	}
+	gRooms.broadcast(
+
+		// Data being broadcast
+		{
+			type: 'collection',
+			data: {
+				collection_id: this._id,
+				author_id: this._loggedUser_id
+			}
+		},
+
+		// Filters
+		[
+			{location: 'admin'},
+			{location: 'collections:public'},
+			{location: 'collection:' + this._id},
+			{
+				location: 'collections:mine',
+				fn: function(User){
+					if(User && User._id === this.getOwnerId())
+						return true;
+					else
+						return false;
+				}
+			},
+		]
+
+	);
+
 
 });
 

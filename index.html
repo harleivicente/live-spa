@@ -10,7 +10,7 @@
 <script>
   var socket = io('http://localhost');
 
-  socket.on('client.response', function(package){
+  socket.on('client.broadcast', function(package){
   	console.log(package);
   });
 
@@ -19,7 +19,6 @@
 
 
     var location = $("input").val();
-    console.log('location');
 
     socket.emit('server.control', {
       type: 'location',

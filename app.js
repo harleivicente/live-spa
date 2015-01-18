@@ -59,11 +59,10 @@
 	var RoomHandler = require('./lib/RoomHandler');
 	gRooms = new RoomHandler;
 
-	// Testing rooms
-	// setInterval(function(){
+	setInterval(function(){
 		// gSessions.summary();
 		// gRooms.summary();
-	// },2000);
+	},500);
 
 
 /*
