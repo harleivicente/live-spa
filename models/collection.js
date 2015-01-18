@@ -71,6 +71,8 @@ var privacy_validador = function(value){
 	return ((value === "public") || (value === "private"));
 }
 
+
+
 /*
 	Pre remove middleware
 
@@ -95,6 +97,9 @@ schema.pre('remove', function(pre_ready){
 	});
 	
 });
+
+/* Middleware testing */
+
 
 gDb.model('Collection', schema);
 
