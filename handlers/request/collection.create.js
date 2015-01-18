@@ -31,6 +31,9 @@ module.exports = function(params, callback, session){
 
 		var collection = new Collection(options);
 
+		// Creation author id
+		collection._loggedUser_id = loggedUser._id;
+
 		collection.save(function(error){
 			if(error){
 				callback(false);

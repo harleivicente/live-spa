@@ -98,7 +98,32 @@ schema.pre('remove', function(pre_ready){
 	
 });
 
-/* Middleware testing */
+
+
+/*
+	Pre save
+
+	1) Sets custom is_new attribute
+*/
+schema.pre('save', function(ready){
+	this.is_new = this.isNew;
+	ready();
+});
+
+
+/*
+	Post save
+*/
+schema.post('save', function(){
+	
+	// Created new collection
+	if(this.is_new){
+		// console.log(this._author_id);
+	} else {
+		// console.log('Just an edit.');
+	}
+
+});
 
 
 gDb.model('Collection', schema);
