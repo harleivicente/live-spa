@@ -8,6 +8,9 @@ Collection model
 @property string cover_file_url
 @property string owner_id
 
+@virtual number n_images
+@virtual
+
 */
 var schema = new gDb.Schema({
 	title: {type: String, required: true},
@@ -103,6 +106,7 @@ schema.pre('remove', function(pre_ready){
 	Post save
 */
 schema.post('save', function(){
+	var scope = this;
 	
 	gRooms.broadcast(
 
@@ -110,8 +114,8 @@ schema.post('save', function(){
 		{
 			type: 'collection',
 			data: {
-				collection_id: this._id,
-				author_id: this._loggedUser_id
+				collection_id: scope._id,
+				author_id: scope._loggedUser_id
 			}
 		},
 
@@ -119,16 +123,16 @@ schema.post('save', function(){
 		[
 			{location: 'admin'},
 			{location: 'collections:public'},
-			{location: 'collection:' + this._id},
+			{location: 'collection:' + scope._id},
 			{
 				location: 'collections:mine',
 				fn: function(User){
-					if(User && User._id === this.getOwnerId())
+					if(User && User.getId() === scope.getOwnerId())
 						return true;
 					else
 						return false;
 				}
-			},
+			}
 		]
 
 	);

@@ -1,5 +1,5 @@
 /*
-	Checks broadcasting when a collection is created.
+	Checks broadcasting when a collection is removed.
 	
 	-> GIVEN
 		4 clients [a,b,c,d], 4 Logged users (A, B, C, D[root])
@@ -9,15 +9,15 @@
 		d @admin
 	
 	-> WHEN
-		A creates a collection
+		A removes a collection
 
 	-> THEN
-		a,c,d only receive a broadcast
+		a,c,d receive a broadcast
 		b does not
 
 */
-describe("broadcast.collection.create",function(){
-	gClients = gUsers = null;
+describe("broadcast.collection.edit",function(){
+	gClients = gUsers = gCollection = null;
 
 	// Create clients, users and login
 	beforeEach(function(before_ready){
@@ -29,7 +29,7 @@ describe("broadcast.collection.create",function(){
 				function(next){
 					createUsers([gClients[0], gClients[1], gClients[2]], function(users){
 						gUsers = users;
-						next(null);
+						next(null, null);
 					});
 				},
 
@@ -52,7 +52,7 @@ describe("broadcast.collection.create",function(){
 							}, ready);
 						},
 						function(error, pkgs){
-							next(null);
+							next(null, null);
 						}
 					);
 				},
@@ -63,11 +63,23 @@ describe("broadcast.collection.create",function(){
 					sendLocation(gClients[1], 'collections:mine');
 					sendLocation(gClients[2], 'collections:public');
 					sendLocation(gClients[0], 'collections:mine');
-					next(null);
+					next(null, null);
+				},
+
+				// Creates collection
+				function(next){
+					makeApiRequest(gClients[0], 'collection.create', {
+						title: 'Tundra',
+						description: 'Very cold place',
+						privacy: 'private',
+						cover_file_url: 'some_url.jpeg'
+					}, next);
 				}
+
 			],
 
 			function(error, results){
+				gCollection = results[3].data.collection;
 				before_ready();
 			}
 		);
@@ -84,21 +96,18 @@ describe("broadcast.collection.create",function(){
 	});
 
 
-	it("When collection is created the correct clients receive a broadcast.", function(done){
+	it("When collection is removed the correct clients receive a broadcast.", function(done){
 
 
-		// A creates collection
-		makeApiRequest(gClients[0], 'collection.create', {
-			title: 'some title that u know',
-			description: 'league anime ?',
-			privacy: 'private',
-			cover_file_url: 'some_url.jpeg'
+		// A removes collection
+		makeApiRequest(gClients[0], 'collection.remove', {
+			collectionId: gCollection._id,
 		}, function(error, package){
 			
 			var expected_broadcast = {
 				type: 'collection',
 				data: {
-					collection_id: package.data.collection._id,
+					collection_id: gCollection._id,
 					author_id: gUsers[0].user._id
 				}
 			};
